@@ -3,358 +3,1080 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
+  <title>Saad Rizwan — Flutter Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
   <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
+    :root {
+      --bg: #080810;
+      --surface: #0e0e1a;
+      --surface2: #13131f;
+      --border: rgba(255,255,255,0.07);
+      --accent: #f0a500;
+      --accent2: #ff5c3a;
+      --text: #f0eff5;
+      --muted: #8b8a9b;
+      --card-bg: rgba(255,255,255,0.03);
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      color: #333;
-      background: linear-gradient(to bottom, #0f2027 0%, #6b2b2b 45%, #bb3b25 100%);
-      background-attachment: fixed;
-      scroll-behavior: smooth;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
     }
 
-    /* Navbar */
-    .navbar {
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 80px;
-      background: #494343;
+      padding: 22px 60px;
+      background: rgba(8,8,16,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
     }
 
     .logo {
-      color: #fff;
-      font-size: 1.5rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
     }
+    .logo span { color: var(--accent); }
 
     .nav-links {
       list-style: none;
       display: flex;
-      gap: 30px;
+      gap: 36px;
     }
-
     .nav-links a {
-      color: #fff;
+      color: var(--muted);
       text-decoration: none;
+      font-size: 0.9rem;
       font-weight: 500;
-      transition: color 0.3s;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
     }
+    .nav-links a:hover { color: var(--text); }
 
-    .nav-links a:hover {
-      color: #ff0000;
-    }
-
-    /* Hero */
+    /* ─── HERO ─── */
     .hero {
-      height: 80vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #fff;
-      background: linear-gradient(to bottom, #0f2027, #6b2b2b, #bb3b25);
+      align-items: flex-start;
+      padding: 120px 60px 80px;
       position: relative;
-      padding: 0 20px;
+      overflow: hidden;
     }
 
-    .hero::after {
-      content: "";
+    /* Glow blobs */
+    .blob {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 150px;
-      background: linear-gradient(to bottom, rgba(44,83,100,0), #6b2b2b);
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .blob-1 {
+      width: 600px; height: 600px;
+      background: var(--accent);
+      top: -150px; right: -100px;
+      animation: float 8s ease-in-out infinite;
+    }
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: var(--accent2);
+      bottom: 50px; left: -100px;
+      animation: float 10s ease-in-out infinite reverse;
     }
 
-    .hero h2 { font-size: 2.5rem; margin-bottom: 10px; }
-    .hero h2 span { color: #ffbf10; }
-    .hero p { max-width: 600px; margin-bottom: 20px; }
-
-    .btn {
-      background: #ffbf10;
-      color: #fff;
-      padding: 10px 25px;
-      border: none;
-      border-radius: 25px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .btn:hover { background: #522f26; }
-    .btn.small { padding: 6px 16px; font-size: 0.9rem; margin-top: 15px; display: inline-block; }
-
-    /* About Section */
-    .about, .projects, .contact {
-      background: rgba(255,255,255,0.92);
-      border-radius: 14px;
-      margin: 40px 8%;
-      padding: 48px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      backdrop-filter: blur(4px);
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
     }
 
-    .about .container {
-      display: flex;
-      gap: 40px;
+    .hero-tag {
+      display: inline-flex;
       align-items: center;
-      max-width: 1000px;
+      gap: 8px;
+      background: rgba(240,165,0,0.1);
+      border: 1px solid rgba(240,165,0,0.25);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero h1 .name-accent {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      max-width: 520px;
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 44px;
+      font-weight: 300;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #000;
+      padding: 13px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(240,165,0,0.35);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      padding: 13px 28px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* ─── SECTION WRAPPER ─── */
+    section {
+      padding: 100px 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .section-label span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 60px;
+      line-height: 1.1;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 80px;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    .profile-wrap {
+      position: relative;
     }
 
     .profile-img {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
+      width: 100%;
+      aspect-ratio: 1;
       object-fit: cover;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      display: block;
     }
 
-    .about-text h2 { margin-bottom: 10px; }
-    .about-text p { margin-bottom: 20px; line-height: 1.6; }
+    .profile-badge {
+      position: absolute;
+      bottom: -16px;
+      right: -16px;
+      background: var(--accent);
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 10px 16px;
+      border-radius: 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
 
-    /* Projects Grid */
+    .about-content { padding-top: 8px; }
+
+    .about-content p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.05rem;
+      font-weight: 300;
+      margin-bottom: 32px;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .skill-tag {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      letter-spacing: 0.01em;
+      transition: border-color 0.2s;
+    }
+    .skill-tag:hover { border-color: rgba(240,165,0,0.4); color: var(--accent); }
+
+    /* ─── PROJECTS ─── */
+    #projects { max-width: none; }
+
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
     }
 
     .project-card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.3s;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      cursor: pointer;
     }
-    .project-card:hover { transform: translateY(-5px); }
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(240,165,0,0.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
 
-    .project-card img {
+    .project-img-wrap {
+      position: relative;
+      overflow: hidden;
+      height: 200px;
+    }
+    .project-img-wrap img {
       width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .project-card:hover .project-img-wrap img { transform: scale(1.06); }
+
+    .project-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(14,14,26,0.85), transparent);
     }
 
-    .project-card .project-detail {
+    .project-body {
+      padding: 24px;
+    }
+
+    .project-number {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .project-body h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .project-body p {
       font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 12px;
-      min-height: 40px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
     }
 
-    /* Modal */
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .project-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .project-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+      padding: 3px 8px;
+    }
+
+    .view-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .view-btn:hover { background: var(--accent); border-color: var(--accent); color: #000; }
+
+    /* ─── MODAL ─── */
     .modal {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
-      overflow-y: auto;
-      padding: 20px;
+      padding: 24px;
     }
+    .modal.open { display: flex; }
 
     .modal-content {
-      background: linear-gradient(to bottom right, #0f2027, #6b2b2b, #bb3b25);
-      color: #fff;
-      border-radius: 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
       width: 90%;
       max-width: 900px;
-      padding: 30px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 40px;
       position: relative;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-      text-align: center;
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .modal-close {
       position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 1.5rem;
+      top: 20px; right: 24px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 1.1rem;
       cursor: pointer;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    .modal h3 { margin-bottom: 20px; font-size: 1.8rem; }
-
-    .modal .project-images {
       display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
+      align-items: center;
       justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+
+    .modal h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
     }
 
-    .modal .project-images img {
-      width: 30%;
+    .modal-desc {
+      color: var(--muted);
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .modal-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .modal-images img {
+      width: 100%;
       height: auto;
-      border-radius: 10px;
-      border: 2px solid #fff;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      aspect-ratio: 9/16;
+      object-fit: contain;
+      object-position: top;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      border: 1px solid var(--border);
       transition: transform 0.3s;
     }
-    .modal .project-images img:hover { transform: scale(1.05); }
+    .modal-images img:hover { transform: scale(1.02); }
 
-    /* Contact Form */
-    .contact-form {
-      max-width: 500px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
     }
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 900px;
+      align-items: start;
+    }
+
+    .contact-info p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--accent); }
+    .contact-link-icon {
+      width: 38px; height: 38px;
+      border-radius: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 1rem;
     }
 
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.8rem; font-weight: 500; color: var(--muted); letter-spacing: 0.04em; }
+
+    .contact-form input,
+    .contact-form textarea {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: rgba(240,165,0,0.5);
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: rgba(139,138,155,0.5); }
+
+    /* ─── FOOTER ─── */
     footer {
-      background: #141414;
-      color: #aaa;
-      text-align: center;
-      padding: 20px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer p { font-size: 0.85rem; color: var(--muted); }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text);
+    }
+    .footer-logo span { color: var(--accent); }
+
+    /* ─── EXPERIENCE ─── */
+    #experience {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 900px;
+    }
+
+    .exp-card {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .exp-card:last-child { border-bottom: none; }
+
+    .exp-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-top: 4px;
+    }
+    .exp-date {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .exp-company {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 4px;
+    }
+    .exp-location {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .exp-role {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .exp-bullets li {
       font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      padding-left: 16px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 700px) {
+      .exp-card { grid-template-columns: 1fr; gap: 12px; }
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      .hero { padding: 110px 24px 60px; }
+      section { padding: 70px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-grid .profile-wrap { max-width: 240px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      footer { padding: 24px; flex-direction: column; gap: 10px; text-align: center; }
+      .modal-content { padding: 28px 20px; }
+      .modal-images { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { gap: 20px; }
+      .hero h1 { font-size: 2.6rem; }
+      .hero-btns { flex-direction: column; }
+      .modal-images { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <nav class="navbar">
-      <h1 class="logo">Saad Rizwan</h1>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">SR<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-    <div class="hero">
-      <h2>Hello, I'm <span>Saad</span></h2>
-      <p>A passionate front-end developer crafting clean and creative solutions.</p>
-      <a href="#projects" class="btn">View My Work</a>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="hero-tag">Available for work</div>
+
+    <h1>
+      Flutter Dev<br>
+      & QA Tester<br>
+      <span class="name-accent">Saad Rizwan</span>
+    </h1>
+
+    <p>Junior Flutter Developer with hands-on experience building mobile apps for Android & iOS. Also expanding into QA testing with Selenium automation.</p>
+
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">
+        View My Work
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="documents/Saad CV 2.pdf" class="btn-secondary">
+        Download CV
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M3 9l4 4 4-4M1 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </header>
 
-  <!-- About -->
-  <section id="about" class="about">
-    <div class="container">
-      <img src="images/for cv.jpg" alt="Profile Picture" class="profile-img">
-      <div class="about-text">
-        <h2>About Me</h2>
-        <p>I am a passionate Flutter mobile app developer building responsive, user-friendly, feature-rich apps for Android & iOS.</p>
-        <a href="documents/Saad CV 2.pdf" class="btn">See Resume</a>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label"><span>About Me</span></div>
+    <div class="about-grid">
+      <div class="profile-wrap">
+        <img src="images/for cv.jpg" alt="Saad Rizwan" class="profile-img">
+        <div class="profile-badge">Flutter Dev</div>
+      </div>
+      <div class="about-content">
+        <h2 class="section-title">Building apps people<br>love to use.</h2>
+        <p>I'm a Junior Flutter Developer with hands-on experience building mobile applications using Flutter and Dart. Currently expanding my skills in QA testing and Selenium automation. Strong understanding of APIs, debugging, and application performance — seeking opportunities in mobile development and QA roles.</p>
+        <p>Based in Ajman, UAE 🇦🇪 — BS Computer Science graduate from Capital University of Science & Technology, Islamabad (2025).</p>
+
+        <div class="skills-list">
+          <span class="skill-tag">Flutter & Dart</span>
+          <span class="skill-tag">Firebase</span>
+          <span class="skill-tag">REST API</span>
+          <span class="skill-tag">GraphQL</span>
+          <span class="skill-tag">Figma / UI·UX</span>
+          <span class="skill-tag">QA Manual Testing</span>
+          <span class="skill-tag">Selenium (Python)</span>
+          <span class="skill-tag">Kotlin</span>
+          <span class="skill-tag">HTML / CSS / JS</span>
+          <span class="skill-tag">Git</span>
+        </div>
+
+        <a href="documents/Saad CV 2.pdf" class="btn-primary">
+          See Full Resume
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- Projects -->
-  <section id="projects" class="projects">
-    <h2>Projects</h2>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label"><span>Experience</span></div>
+    <h2 class="section-title">Work History</h2>
+    <div class="exp-list">
+
+      <div class="exp-card">
+        <div class="exp-left">
+          <span class="exp-date">Jan 2026 – Mar 2026</span>
+          <span class="exp-company">iGate Technologies</span>
+          <span class="exp-location">Islamabad</span>
+        </div>
+        <div class="exp-right">
+          <div class="exp-role">IT Intern — Flutter</div>
+          <ul class="exp-bullets">
+            <li>Developed a custom Shopify mobile application using Flutter</li>
+            <li>Integrated Shopify Storefront API using GraphQL for product and customer data</li>
+            <li>Implemented product listing, cart, and checkout features</li>
+            <li>Optimized API calls and improved app performance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-left">
+          <span class="exp-date">Oct 2025 – Nov 2025</span>
+          <span class="exp-company">High Tech Software House</span>
+          <span class="exp-location">Rawalpindi</span>
+        </div>
+        <div class="exp-right">
+          <div class="exp-role">Android App Development Intern</div>
+          <ul class="exp-bullets">
+            <li>Developed Android applications using Kotlin, enhancing user experience and interface design</li>
+            <li>Gained real-world exposure to application development processes and industry-standard practices</li>
+            <li>Maintained Android applications, ensuring optimal performance through continuous updates</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-left">
+          <span class="exp-date">Aug 2025 – Sep 2025</span>
+          <span class="exp-company">Willow's Ventures</span>
+          <span class="exp-location">Rawalpindi</span>
+        </div>
+        <div class="exp-right">
+          <div class="exp-role">Junior Web Developer</div>
+          <ul class="exp-bullets">
+            <li>Developed and maintained user-friendly website interfaces using HTML, CSS, and JavaScript</li>
+            <li>Implemented responsive design principles for accessibility across all devices</li>
+            <li>Collaborated with senior developers to integrate back-end functionalities with front-end designs</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label"><span>Projects</span></div>
+    <h2 class="section-title">Selected Work</h2>
+
     <div class="project-grid">
 
-      <div class="project-card">
-        <img src="images/Project eco.jpg" alt="Notepad App">
-        <h3>Notepad App</h3>
-        <div class="project-detail">A simple CRUD notepad app to create, read, update, and delete notes efficiently.</div>
-        <button class="btn small" onclick="openModal('modal1')">View Details</button>
+      <div class="project-card" onclick="openModal('modal1')">
+        <div class="project-img-wrap">
+          <img src="images/notepad-cover.svg" alt="Notepad App">
+          <div class="project-img-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-number">Project 01</div>
+          <h3>Notepad App</h3>
+          <p>A clean CRUD notepad app to create, read, update, and delete notes efficiently with a smooth UI.</p>
+          <div class="project-footer">
+            <div class="project-tags">
+              <span class="project-tag">Flutter</span>
+              <span class="project-tag">SQLite</span>
+            </div>
+            <button class="view-btn" aria-label="View Details">→</button>
+          </div>
+        </div>
       </div>
 
-      <div class="project-card">
-        <img src="images/Car-Pal Carpooling App Interface.png" alt="Carpooling App">
-        <h3>Carpooling App</h3>
-        <div class="project-detail">Subscription-based carpool app with female filter, emergency alerts, live tracking, and chat system.</div>
-        <button class="btn small" onclick="openModal('modal2')">View Details</button>
+      <div class="project-card" onclick="openModal('modal2')">
+        <div class="project-img-wrap">
+          <img src="images/carpal-cover.svg" alt="Car-Pal Carpooling App">
+          <div class="project-img-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-number">Project 02</div>
+          <h3>Car-Pal — Carpooling App</h3>
+          <p>Subscription-based carpool app with gender-based filter, emergency SOS, real-time GPS tracking, and in-app chat.</p>
+          <div class="project-footer">
+            <div class="project-tags">
+              <span class="project-tag">Flutter</span>
+              <span class="project-tag">Firebase</span>
+              <span class="project-tag">Google Maps</span>
+            </div>
+            <button class="view-btn" aria-label="View Details">→</button>
+          </div>
+        </div>
       </div>
 
-      <div class="project-card">
-        <img src="images/tokenization.jpg" alt="TokenizeX">
-        <h3>TokenizeX</h3>
-        <div class="project-detail">Landing page for a tokenization platform built with React & Flask, showing platform features.</div>
-        <button class="btn small" onclick="openModal('modal3')">View Details</button>
+
+
+      <div class="project-card" onclick="openModal('modal4')">
+        <div class="project-img-wrap">
+          <img src="images/shopify-cover.svg" alt="Shopify Mobile App">
+          <div class="project-img-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-number">Project 03</div>
+          <h3>Shopify Mobile App</h3>
+          <p>Custom Shopify storefront app using Flutter with GraphQL integration — product browsing, cart, and checkout.</p>
+          <div class="project-footer">
+            <div class="project-tags">
+              <span class="project-tag">Flutter</span>
+              <span class="project-tag">GraphQL</span>
+              <span class="project-tag">Shopify API</span>
+            </div>
+            <button class="view-btn" aria-label="View Details">→</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="openModal('modal5')">
+        <div class="project-img-wrap" style="background:#0f0a1a;">
+          <img src="images/news-cover.svg" alt="News App" style="object-fit:cover;">
+          <div class="project-img-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-number">Project 04</div>
+          <h3>News App</h3>
+          <p>Flutter news app displaying real-time articles from multiple categories via REST API, with bookmarking and smooth navigation.</p>
+          <div class="project-footer">
+            <div class="project-tags">
+              <span class="project-tag">Flutter</span>
+              <span class="project-tag">Dart</span>
+              <span class="project-tag">REST API</span>
+            </div>
+            <button class="view-btn" aria-label="View Details">→</button>
+          </div>
+        </div>
       </div>
 
     </div>
   </section>
 
-  <!-- Modals -->
-  <div id="modal1" class="modal">
+  <!-- MODALS -->
+  <div id="modal1" class="modal" onclick="handleModalClick(event, 'modal1')">
     <div class="modal-content">
-      <span class="modal-close" onclick="closeModal('modal1')">&times;</span>
+      <button class="modal-close" onclick="closeModal('modal1')">✕</button>
       <h3>Notepad App</h3>
-      <div class="project-images">
-        <img src="images/PHOTO-2025-08-26-22-35-06 (1).jpg" alt="Notepad 1">
-        <img src="images/PHOTO-2025-08-26-22-35-06 (2).jpg" alt="Notepad 2">
-        <img src="images/PHOTO-2025-08-26-22-35-06.jpg" alt="Notepad 3">
+      <p class="modal-desc">A simple CRUD notepad app to create, read, update, and delete notes efficiently — built with Flutter and local database storage.</p>
+      <div class="modal-images">
+        <img src="images/PHOTO-2025-08-26-22-35-06 (1).jpg" alt="Notepad Screen 1">
+        <img src="images/PHOTO-2025-08-26-22-35-06 (2).jpg" alt="Notepad Screen 2">
+        <img src="images/PHOTO-2025-08-26-22-35-06.jpg" alt="Notepad Screen 3">
       </div>
     </div>
   </div>
 
-  <div id="modal2" class="modal">
+  <div id="modal2" class="modal" onclick="handleModalClick(event, 'modal2')">
     <div class="modal-content">
-      <span class="modal-close" onclick="closeModal('modal2')">&times;</span>
-      <h3>Carpooling App</h3>
-      <div class="project-images">
-        <img src="images/f1.jpg" alt="Carpool 1">
-        <img src="images/f2.jpg" alt="Carpool 2">
-        <img src="images/f3.jpg" alt="Carpool 3">
+      <button class="modal-close" onclick="closeModal('modal2')">✕</button>
+      <h3>Car-Pal — Carpooling App</h3>
+      <p class="modal-desc">Subscription-based carpooling app built with Flutter & Firebase. Features gender-based driver filter, real-time GPS tracking, emergency SOS, payment management, and subscription system.</p>
+      <div class="modal-images" style="grid-template-columns: repeat(4, 1fr);">
+        <img src="images/carpal-1.jpg" alt="Car-Pal Passenger Home">
+        <img src="images/carpal-2.jpg" alt="Car-Pal Driver Home">
+        <img src="images/carpal-3.jpg" alt="Car-Pal Browse Drivers">
+        <img src="images/carpal-4.jpg" alt="Car-Pal Subscriptions">
+        <img src="images/carpal-5.jpg" alt="Car-Pal Payments">
+        <img src="images/carpal-6.jpg" alt="Car-Pal Map & Ride">
+        <img src="images/carpal-7.jpg" alt="Car-Pal Driver Profile">
       </div>
     </div>
   </div>
 
-  <div id="modal3" class="modal">
+
+
+  <div id="modal4" class="modal" onclick="handleModalClick(event, 'modal4')">
     <div class="modal-content">
-      <span class="modal-close" onclick="closeModal('modal3')">&times;</span>
-      <h3>TokenizeX</h3>
-      <div class="project-images">
-        <img src="images/project3-1.jpg" alt="TokenizeX 1">
-        <img src="images/project3-2.jpg" alt="TokenizeX 2">
-        <img src="images/project3-3.jpg" alt="TokenizeX 3">
+      <button class="modal-close" onclick="closeModal('modal4')">✕</button>
+      <h3>Shopify Mobile App</h3>
+      <p class="modal-desc">Built during internship at iGate Technologies — a custom Flutter storefront app consuming Shopify's Storefront API via GraphQL. Includes product listing, detail pages, cart management, and checkout flow.</p>
+      <div class="modal-images" style="grid-template-columns: repeat(4, 1fr);">
+        <img src="images/shopify-1.png" alt="Shopify Screen 1">
+        <img src="images/shopify-2.png" alt="Shopify Screen 2">
+        <img src="images/shopify-3.png" alt="Shopify Screen 3">
+        <img src="images/shopify-4.png" alt="Shopify Screen 4">
+        <img src="images/shopify-5.png" alt="Shopify Screen 5">
+        <img src="images/shopify-6.png" alt="Shopify Screen 6">
+        <img src="images/shopify-7.png" alt="Shopify Screen 7">
       </div>
     </div>
   </div>
 
-  <!-- Contact -->
-  <section id="contact" class="contact">
-    <h2>Contact Me</h2>
-    <form class="contact-form">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea placeholder="Your Message" rows="3" required></textarea>
-      <button type="submit" class="btn">Send Message</button>
-    </form>
+  <div id="modal5" class="modal" onclick="handleModalClick(event, 'modal5')">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modal5')">✕</button>
+      <h3>News App</h3>
+      <p class="modal-desc">A Flutter news application displaying real-time articles from multiple categories using REST APIs, with article bookmarking and smooth navigation.</p>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:20px; text-align:left;">
+        <p style="color:var(--muted); font-size:0.9rem; line-height:1.7;">📰 <strong style="color:var(--text)">Stack:</strong> Flutter, Dart, REST API<br>
+        🗂️ <strong style="color:var(--text)">Features:</strong> Multi-category news feed, article bookmarking<br>
+        📱 <strong style="color:var(--text)">UI:</strong> Responsive design, smooth navigation<br>
+        🔄 <strong style="color:var(--text)">Data:</strong> Dynamic article fetching and updating via REST APIs</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label"><span>Contact</span></div>
+    <h2 class="section-title">Let's work together.</h2>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>Have a project in mind or want to collaborate? I'm always open to discussing new opportunities and interesting ideas.</p>
+        <div class="contact-links">
+          <a href="mailto:saadrizwan123321@gmail.com" class="contact-link">
+            <div class="contact-link-icon">✉</div>
+            saadrizwan123321@gmail.com
+          </a>
+          <a href="tel:+971562229516" class="contact-link">
+            <div class="contact-link-icon">📞</div>
+            056-2229516
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-link-icon">📍</div>
+            Nuaimiya, Ajman, UAE
+          </a>
+        </div>
+      </div>
+
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea rows="4" placeholder="Tell me about your project..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="align-self: flex-start;">
+          Send Message
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
   </section>
 
   <footer>
-    <p>© 2025 Saad Rizwan. All Rights Reserved.</p>
+    <div class="footer-logo">SR<span>.</span></div>
+    <p>© 2025 Saad Rizwan. All rights reserved.</p>
   </footer>
 
   <script>
-    function openModal(id){
-      document.getElementById(id).style.display = 'flex';
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
-    function closeModal(id){
-      document.getElementById(id).style.display = 'none';
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
     }
+    function handleModalClick(e, id) {
+      if (e.target === document.getElementById(id)) closeModal(id);
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal.open').forEach(m => {
+          m.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+    });
   </script>
-
 </body>
 </html>
-
-
-
