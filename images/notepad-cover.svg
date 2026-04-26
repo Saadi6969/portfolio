@@ -1,0 +1,34 @@
+<svg width="600" height="340" viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="340" fill="#0f0f1a"/>
+  <rect x="0" y="0" width="600" height="340" fill="url(#bg)"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="600" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f0f1a"/>
+      <stop offset="100%" stop-color="#1a1030"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0a500"/>
+      <stop offset="100%" stop-color="#ff5c3a"/>
+    </linearGradient>
+  </defs>
+  <!-- decorative circles -->
+  <circle cx="520" cy="60" r="80" fill="#f0a500" opacity="0.07"/>
+  <circle cx="80" cy="280" r="60" fill="#ff5c3a" opacity="0.07"/>
+  <!-- notepad lines -->
+  <rect x="160" y="70" width="280" height="200" rx="12" fill="#1a1a2e" stroke="#f0a500" stroke-width="1.5" stroke-opacity="0.3"/>
+  <!-- red margin line -->
+  <line x1="200" y1="70" x2="200" y2="270" stroke="#ff5c3a" stroke-width="1.5" stroke-opacity="0.5"/>
+  <!-- note lines -->
+  <line x1="215" y1="110" x2="420" y2="110" stroke="#ffffff" stroke-width="1" stroke-opacity="0.15"/>
+  <line x1="215" y1="135" x2="400" y2="135" stroke="#ffffff" stroke-width="1" stroke-opacity="0.15"/>
+  <line x1="215" y1="160" x2="410" y2="160" stroke="#ffffff" stroke-width="1" stroke-opacity="0.15"/>
+  <line x1="215" y1="185" x2="390" y2="185" stroke="#ffffff" stroke-width="1" stroke-opacity="0.15"/>
+  <line x1="215" y1="210" x2="405" y2="210" stroke="#ffffff" stroke-width="1" stroke-opacity="0.15"/>
+  <line x1="215" y1="235" x2="370" y2="235" stroke="#ffffff" stroke-width="1" stroke-opacity="0.15"/>
+  <!-- pencil icon -->
+  <rect x="340" y="240" width="60" height="14" rx="4" fill="url(#acc)" opacity="0.9" transform="rotate(-40 340 240)"/>
+  <polygon points="340,240 333,255 348,252" fill="#f0a500" transform="rotate(-40 340 240)"/>
+  <!-- label -->
+  <text x="300" y="308" font-family="system-ui,sans-serif" font-size="13" font-weight="600" fill="#f0a500" text-anchor="middle" letter-spacing="3" opacity="0.9">NOTEPAD APP</text>
+  <text x="300" y="326" font-family="system-ui,sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" opacity="0.35" letter-spacing="1">FLUTTER · SQLITE · CRUD</text>
+</svg>
