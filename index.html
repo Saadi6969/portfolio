@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Saad Rizwan — Flutter Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // ── PASTE YOUR EmailJS keys here ──────────────────────────────
+    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // from Account → API Keys
+    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // from Email Services
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // from Email Templates
+    // ─────────────────────────────────────────────────────────────
+    (function(){ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
+  </script>
   <style>
     /* ══════════════════════════════════════════
        TOKENS & THEME
@@ -275,8 +284,8 @@
       border-radius:28px;overflow:hidden;height:480px;background:#000;
       position:relative;
     }
-    .phone-slides{display:flex;transition:transform 0.5s var(--ease);height:100%}
-    .phone-slide{min-width:100%;height:100%;object-fit:cover;object-position:top}
+    .phone-slides{display:flex;transition:transform 0.5s var(--ease);height:100%;width:100%}
+    .phone-slide{min-width:100%;height:100%;object-fit:cover;object-position:top center;display:block;flex-shrink:0;width:100%}
     .phone-slide-placeholder{
       min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;
       background:linear-gradient(160deg,#0d0d1a,#1a0a0a);
@@ -822,7 +831,7 @@
     <div class="proj-ribbon" id="ribbon">
 
       <div class="proj-card reveal" onclick="openModal('m1')">
-        <div class="proj-img-w"><img src="images/carpal-1.jpg" alt="Car-Pal"><div class="proj-img-ov"></div></div>
+        <div class="proj-img-w"><img src="images/carpal-cover.svg" alt="Car-Pal"><div class="proj-img-ov"></div></div>
         <div class="proj-body">
           <div class="proj-num">Project 01</div>
           <h3>Car-Pal Carpooling</h3>
@@ -835,7 +844,7 @@
       </div>
 
       <div class="proj-card reveal" onclick="openModal('m2')">
-        <div class="proj-img-w"><img src="images/shopify-1.png" alt="Shopify"><div class="proj-img-ov"></div></div>
+        <div class="proj-img-w"><img src="images/shopify-cover.svg" alt="Shopify"><div class="proj-img-ov"></div></div>
         <div class="proj-body">
           <div class="proj-num">Project 02</div>
           <h3>Shopify Mobile App</h3>
@@ -848,12 +857,8 @@
       </div>
 
       <div class="proj-card reveal" onclick="openModal('m3')">
-        <div class="proj-img-w" style="background:linear-gradient(135deg,#0d0d1f,#1a0a0a)">
-          <div class="proj-img-ov"></div>
-          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
-            <span style="font-size:3.5rem">📝</span>
-            <span style="font-family:var(--font-mono);font-size:0.75rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em">NOTEPAD APP</span>
-          </div>
+        <div class="proj-img-w">
+          <img src="images/notepad-cover.svg" alt="Notepad App"><div class="proj-img-ov"></div>
         </div>
         <div class="proj-body">
           <div class="proj-num">Project 03</div>
@@ -867,12 +872,8 @@
       </div>
 
       <div class="proj-card reveal" onclick="openModal('m4')">
-        <div class="proj-img-w" style="background:linear-gradient(135deg,#040a1f,#0a0420)">
-          <div class="proj-img-ov"></div>
-          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
-            <span style="font-size:3.5rem">📰</span>
-            <span style="font-family:var(--font-mono);font-size:0.75rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em">NEWS APP</span>
-          </div>
+        <div class="proj-img-w">
+          <img src="images/news-cover.svg" alt="News App"><div class="proj-img-ov"></div>
         </div>
         <div class="proj-body">
           <div class="proj-num">Project 04</div>
@@ -973,13 +974,15 @@
 
     <div class="reveal">
       <form class="cform" id="contactForm" onsubmit="handleSubmit(event)">
-        <div class="fg"><label>Your Name</label><input type="text" placeholder="John Doe" required></div>
-        <div class="fg"><label>Email Address</label><input type="email" placeholder="john@example.com" required></div>
-        <div class="fg"><label>Message</label><textarea rows="5" placeholder="Tell me about your project..." required></textarea></div>
-        <button type="submit" class="btn-p" style="align-self:flex-start;border:none">
-          Send Message
-          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="fg"><label>Your Name</label><input type="text" name="from_name" placeholder="John Doe" required></div>
+        <div class="fg"><label>Email Address</label><input type="email" name="reply_to" placeholder="john@example.com" required></div>
+        <div class="fg"><label>Message</label><textarea rows="5" name="message" placeholder="Tell me about your project..." required></textarea></div>
+        <button type="submit" class="btn-p" id="submitBtn" style="align-self:flex-start;border:none">
+          <span id="btn-label">Send Message</span>
+          <svg id="btn-arrow" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="btn-spinner" style="display:none;width:14px;height:14px;border:2px solid rgba(0,0,0,0.3);border-top-color:#000;border-radius:50%;animation:spin 0.7s linear infinite"></span>
         </button>
+        <p id="form-error" style="display:none;font-size:0.82rem;color:var(--accent2);margin-top:6px"></p>
       </form>
       <div id="form-success">
         <div class="checkmark-wrap">
@@ -1326,20 +1329,44 @@ function launchConfetti(){
 }
 
 // ══════════════════════════════════════
-// FORM SUBMIT
+// FORM SUBMIT — EmailJS
 // ══════════════════════════════════════
-function handleSubmit(e){
+// Add spin keyframe
+const spinStyle=document.createElement('style');
+spinStyle.textContent='@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(spinStyle);
+
+async function handleSubmit(e){
   e.preventDefault();
-  const form=document.getElementById('contactForm');
-  const success=document.getElementById('form-success');
-  form.style.opacity='0';form.style.transform='translateY(-20px)';form.style.transition='all 0.4s';
-  setTimeout(()=>{
-    form.style.display='none';
-    success.classList.add('show');
-    document.getElementById('ck-circle').classList.add('animate');
-    document.getElementById('ck-check').classList.add('animate');
-    launchConfetti();
-  },400);
+  const form    = document.getElementById('contactForm');
+  const success = document.getElementById('form-success');
+  const btn     = document.getElementById('submitBtn');
+  const label   = document.getElementById('btn-label');
+  const arrow   = document.getElementById('btn-arrow');
+  const spinner = document.getElementById('btn-spinner');
+  const errEl   = document.getElementById('form-error');
+
+  // Loading state
+  btn.disabled=true;label.textContent='Sending…';arrow.style.display='none';spinner.style.display='inline-block';errEl.style.display='none';
+
+  try {
+    await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+    // Success!
+    form.style.opacity='0';form.style.transform='translateY(-20px)';form.style.transition='all 0.4s';
+    setTimeout(()=>{
+      form.style.display='none';
+      success.classList.add('show');
+      document.getElementById('ck-circle').classList.add('animate');
+      document.getElementById('ck-check').classList.add('animate');
+      launchConfetti();
+    },400);
+  } catch(err) {
+    // Error state
+    btn.disabled=false;label.textContent='Send Message';arrow.style.display='inline-block';spinner.style.display='none';
+    errEl.textContent='Something went wrong. Please email me directly at saadrizwan123321@gmail.com';
+    errEl.style.display='block';
+    console.error('EmailJS error:',err);
+  }
 }
 
 // ══════════════════════════════════════
