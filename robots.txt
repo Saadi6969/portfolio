@@ -1,0 +1,12 @@
+# robots.txt — Saad Rizwan Portfolio
+# https://YOUR_DOMAIN/
+
+User-agent: *
+Allow: /
+
+# Point crawlers to sitemap
+Sitemap: https://YOUR_DOMAIN/sitemap.xml
+
+# Block unnecessary paths
+Disallow: /node_modules/
+Disallow: /.git/
