@@ -38,7 +38,6 @@
   "name": "Saad Rizwan",
   "jobTitle": "Flutter Developer",
   "url": "https://saadrizwan.vercel.app/",
-  "image": "https://saadrizwan.vercel.app/images/saad-portrait.jpg",
   "email": "mailto:saadrizwan123321@gmail.com",
   "address": { "@type": "PostalAddress", "addressLocality": "Ajman", "addressCountry": "AE" },
   "alumniOf": { "@type": "CollegeOrUniversity", "name": "Capital University of Science and Technology" },
@@ -95,15 +94,15 @@ a:hover { color: var(--accent-ink); }
 
 /* hero */
 .hero { padding: clamp(48px, 8vw, 96px) 0 clamp(48px, 7vw, 80px); }
-.hero .wrap { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(32px, 6vw, 72px); align-items: end; }
+.hero-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
 .hero h1 {
-  font-size: clamp(44px, 7.4vw, 88px);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
+  font-size: clamp(48px, 7.6vw, 92px);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
   font-weight: 700;
   margin: 0 0 28px;
 }
-.hero .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.5; max-width: 30em; margin: 0 0 20px; }
+.hero .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.5; max-width: 30em; margin: 0 0 20px; color: var(--ink); }
 .status { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: 15px; margin: 0 0 32px; }
 .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #4cc38a; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -115,8 +114,23 @@ a:hover { color: var(--accent-ink); }
 .btn-primary:hover { background: var(--accent-ink); border-color: var(--accent-ink); color: var(--on-accent); }
 .btn-plain { color: var(--accent); background: transparent; }
 .btn-plain:hover { background: var(--surface); }
-.portrait { border-radius: 10px; overflow: hidden; background: var(--surface); aspect-ratio: 4 / 5; border: 1px solid var(--line); }
-.portrait img { width: 100%; height: 100%; object-fit: cover; }
+
+.showcase { margin: 0; justify-self: end; }
+.showcase-phones { display: flex; gap: 18px; align-items: flex-start; }
+.showcase-phones img {
+  width: 200px; aspect-ratio: 9 / 16; height: auto; object-fit: cover; object-position: top;
+  border-radius: 22px; border: 6px solid var(--surface); outline: 1px solid var(--line);
+  background: var(--surface);
+}
+.showcase-phones img + img { margin-top: 48px; }
+.showcase figcaption { color: var(--muted); font-size: 14px; margin-top: 16px; }
+
+.facts {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap);
+  margin: clamp(48px, 7vw, 80px) 0 0; padding-top: 24px; border-top: 1px solid var(--line);
+}
+.facts dt { color: var(--muted); font-size: 14px; margin-bottom: 4px; }
+.facts dd { margin: 0; font-weight: 500; }
 
 /* sections */
 section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); }
@@ -192,8 +206,9 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
 .site-foot { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 14px; }
 
 @media (max-width: 860px) {
-  .hero .wrap { grid-template-columns: 1fr; }
-  .portrait { max-width: 320px; order: -1; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .showcase { justify-self: start; }
+  .facts { grid-template-columns: 1fr; gap: 16px; }
   .sec-head, .project, .job, .two-col { grid-template-columns: 1fr; }
   .groups { grid-template-columns: 1fr 1fr; }
   .small-apps { grid-template-columns: 1fr; }
@@ -205,6 +220,8 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
   .nav a:not(.cv) { display: none; }
   .groups, .contact-list { grid-template-columns: 1fr; }
   .client { padding: 20px; }
+  .showcase, .showcase-phones { width: 100%; }
+  .showcase-phones img { width: calc(50% - 9px); }
 }
 </style>
 </head>
@@ -225,8 +242,8 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
 
 <main id="main">
   <div class="hero" id="top">
-    <div class="wrap">
-      <div>
+    <div class="wrap hero-grid">
+      <div class="hero-text">
         <h1>Saad Rizwan</h1>
         <p class="lede">I’m a Flutter developer in Ajman, UAE. I build Android and iOS apps with Firebase, GraphQL and REST APIs, and I test software by hand and with Selenium.</p>
         <p class="status">Open to full-time roles in the UAE</p>
@@ -235,9 +252,20 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
           <a class="btn btn-plain" href="mailto:saadrizwan123321@gmail.com">Email me</a>
         </div>
       </div>
-      <div class="portrait">
-        <img src="images/saad-portrait.jpg" alt="Portrait of Saad Rizwan" width="720" height="900">
-      </div>
+      <figure class="showcase">
+        <div class="showcase-phones">
+          <img src="images/carpal-1.jpg" alt="Car-Pal app home screen" width="317" height="651">
+          <img src="images/shopify-1.png" alt="Shopify store app home screen" width="316" height="547">
+        </div>
+        <figcaption>Car-Pal and a Shopify store app, both built in Flutter.</figcaption>
+      </figure>
+    </div>
+    <div class="wrap">
+      <dl class="facts">
+        <div><dt>Most recent role</dt><dd>Flutter intern at iGate Technologies</dd></div>
+        <div><dt>Education</dt><dd>BS Computer Science, CUST, 2025</dd></div>
+        <div><dt>Experience</dt><dd>3 internships in mobile and web</dd></div>
+      </dl>
     </div>
   </div>
 
