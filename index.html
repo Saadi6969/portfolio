@@ -145,6 +145,7 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
 /* projects */
 .project { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gap); padding: 40px 0; border-top: 1px solid var(--line); }
 .project:first-of-type { border-top: 0; padding-top: 0; }
+.project > div, .job > div { min-width: 0; }
 .project h3 { font-size: 24px; margin: 0 0 4px; letter-spacing: -0.01em; }
 .project .kind { color: var(--muted); font-size: 15px; margin: 0 0 16px; }
 .project p { margin: 0 0 16px; }
@@ -163,11 +164,10 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
   height: 380px; width: auto; border-radius: 14px; border: 1px solid var(--line); background: var(--surface);
 }
 .scroll-hint { color: var(--muted); font-size: 14px; margin: 8px 0 0; }
+.screens.wide img { height: 300px; border-radius: 8px; }
+.screens.wide a { display: block; border-radius: 8px; }
+.screens figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
 
-.client {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 28px;
-}
-.client .tag { display: inline-block; font-size: 14px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
 
 .small-apps { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
 .small-apps h4 { font-size: 18px; margin: 0 0 6px; }
@@ -214,13 +214,13 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
   .small-apps { grid-template-columns: 1fr; }
   .contact-list { grid-template-columns: 1fr 1fr; }
   .screens img { height: 320px; }
+  .screens.wide img { height: 200px; }
 }
 @media (max-width: 560px) {
   body { font-size: 16px; }
   .nav a:not(.cv) { display: none; }
   .groups, .contact-list { grid-template-columns: 1fr; }
-  .client { padding: 20px; }
-  .showcase, .showcase-phones { width: 100%; }
+    .showcase, .showcase-phones { width: 100%; }
   .showcase-phones img { width: calc(50% - 9px); }
 }
 </style>
@@ -273,7 +273,7 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
     <div class="wrap">
       <div class="sec-head">
         <h2 id="work-title">Work</h2>
-        <p>Apps I’ve built during internships and on my own, plus a website for a client.</p>
+        <p>Apps I’ve built during internships and on my own, plus a full website for a client.</p>
       </div>
 
       <article class="project">
@@ -337,8 +337,6 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
         <div>
           <h3>How About Coffee</h3>
           <p class="kind">Website and admin panel for a client</p>
-        </div>
-        <div class="client">
           <p>A website for a specialty coffee shop and co-working café in Lisbon. Customers see the menu and events and book co-working seats. The owner edits menus, prices, opening hours, events and photos in an admin panel, and manages bookings there.</p>
           <ul class="points">
             <li>Booking form that checks opening hours and works out the price</li>
@@ -348,6 +346,18 @@ section { padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); 
           <ul class="stack" aria-label="Built with">
             <li>React</li><li>Vite</li><li>Python</li><li>FastAPI</li><li>MongoDB</li>
           </ul>
+        </div>
+        <div>
+          <div class="screens wide" tabindex="0" aria-label="How About Coffee screenshots">
+            <figure><a href="images/hac-home.jpg" target="_blank" rel="noopener"><img src="images/hac-home.jpg" alt="How About Coffee: Home page" width="1200" height="750" loading="lazy"></a><figcaption>Home page</figcaption></figure>
+            <figure><a href="images/hac-booking.jpg" target="_blank" rel="noopener"><img src="images/hac-booking.jpg" alt="How About Coffee: Co-working booking form" width="1200" height="916" loading="lazy"></a><figcaption>Co-working booking form</figcaption></figure>
+            <figure><a href="images/hac-admin-bookings.jpg" target="_blank" rel="noopener"><img src="images/hac-admin-bookings.jpg" alt="How About Coffee: Admin panel: bookings" width="1200" height="750" loading="lazy"></a><figcaption>Admin panel: bookings</figcaption></figure>
+            <figure><a href="images/hac-menu.jpg" target="_blank" rel="noopener"><img src="images/hac-menu.jpg" alt="How About Coffee: Menu" width="1200" height="750" loading="lazy"></a><figcaption>Menu</figcaption></figure>
+            <figure><a href="images/hac-admin-menu.jpg" target="_blank" rel="noopener"><img src="images/hac-admin-menu.jpg" alt="How About Coffee: Admin panel: menu editor" width="1200" height="750" loading="lazy"></a><figcaption>Admin panel: menu editor</figcaption></figure>
+            <figure><a href="images/hac-coworking.jpg" target="_blank" rel="noopener"><img src="images/hac-coworking.jpg" alt="How About Coffee: Co-working section" width="1200" height="750" loading="lazy"></a><figcaption>Co-working section</figcaption></figure>
+            <figure><a href="images/hac-gallery.jpg" target="_blank" rel="noopener"><img src="images/hac-gallery.jpg" alt="How About Coffee: Photo gallery" width="1200" height="750" loading="lazy"></a><figcaption>Photo gallery</figcaption></figure>
+          </div>
+          <p class="scroll-hint">Scroll sideways for more. Click a screenshot to see it full size.</p>
         </div>
       </article>
 
